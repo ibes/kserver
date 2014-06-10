@@ -1,0 +1,33 @@
+{
+  "name": "kserver",
+  "version": "0.0.0",
+  "description": "Server for kommunikationsfragen",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node_modules/nodemon/bin/nodemon.js --harmony index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ibes/kserver.git"
+  },
+  "keywords": [
+    "koa",
+    "api",
+    "rest"
+  ],
+  "author": "Sebastian Gärtner",
+  "license": "",
+  "bugs": {
+    "url": "https://github.com/ibes/kserver/issues"
+  },
+  "homepage": "https://github.com/ibes/kserver",
+  "dependencies": {
+    "koa": "^0.7.0",
+    "koa-logger": "^1.2.1",
+    "koa-route": "^1.1.4"
+  },
+  "devDependencies": {
+    "nodemon": "^1.2.0"
+  }
+}
