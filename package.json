@@ -18,6 +18,7 @@
   ],
   "author": "Sebastian Gärtner",
   "license": "",
+  "private": true,
   "bugs": {
     "url": "https://github.com/ibes/kserver/issues"
   },
