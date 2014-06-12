@@ -3,16 +3,36 @@
  * Module dependencies.
  */
 
-var logger = require('koa-logger');
-var route = require('koa-route');
-var koa = require('koa');
-var app = koa();
+var logger = require('koa-logger')
+  , route = require('koa-route')
+  , parse = require('co-body')
+  , koa = require('koa')
+  , mongoose = require('mongoose')
+  , Schema = mongoose.Schema
+  , app = koa();
 
 app.name = 'kserver';
 
 // logging
 
 app.use(logger());
+
+// model definitions
+
+var questionSchema = new Schema({
+  title: String,
+  body: String
+});
+
+var Question = mongoose.model('Question', questionSchema);
+
+// connect to database
+
+mongoose.connect('mongodb://localhost/kommunikationsfragen');
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+
+
 
 // routing
 
@@ -25,17 +45,29 @@ app.use(route.delete('/questions/:id', deleteQuestion));
 // controller
 
 function *getQuestions() {
-  var res = 'Many Questions';
+  var questions = yield Question.find().exec();
+  console.log(questions);
+  var questionList = '';
+  questions.forEach(function(question) {
+    questionList += question.title + ' ' + question.body + ', \n';
+  });
+  var res = 'Questions: \n' + questionList;
   this.body = res;
 }
 
 function *getQuestion(id) {
-  var res = 'Question ' + id;
+  var question = yield Question.findOne({_id: id}).exec();
+  console.log(question);
+  var res = 'Question ' + id + ': ' + question.title + ' ' + question.body;
   this.body = res;
 }
 
 function *addQuestion() {
-  var res = 'Add Question';
+  var question = yield parse.json(this);
+  var newQ = new Question({title: question.title, body: question.body});
+  newQ.save();
+  var res = 'Add Question' + ' :: ' + question.title + ' ' + question.body;
+  console.log(newQ);
   this.body = res;
 }
 
