@@ -16,18 +16,36 @@ app.use(logger());
 
 // routing
 
-app.use(route.get('/', index));
-app.use(route.post('/', post));
+app.use(route.get('/questions', getQuestions));
+app.use(route.post('/questions', addQuestion));
+app.use(route.get('/questions/:id', getQuestion));
+app.use(route.put('/questions/:id', updateQuestion));
+app.use(route.delete('/questions/:id', deleteQuestion));
 
 // controller
 
-function *index() {
-  var res = 'hallo welt';
+function *getQuestions() {
+  var res = 'Many Questions';
   this.body = res;
 }
 
-function *post() {
-  var res = this;
+function *getQuestion(id) {
+  var res = 'Question ' + id;
+  this.body = res;
+}
+
+function *addQuestion() {
+  var res = 'Add Question';
+  this.body = res;
+}
+
+function *updateQuestion(id) {
+  var res = 'Update Question ' + id;
+  this.body = res;
+}
+
+function *deleteQuestion(id) {
+  var res = 'Delete Question ' + id;
   this.body = res;
 }
 
